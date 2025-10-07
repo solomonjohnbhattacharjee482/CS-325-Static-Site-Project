@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+	.parent{ display:grid; grid-template-columns:3fr 1fr; gap:12px; }
+	.inline{ display:inline-block; }
+	.fullwidth{ width:100%; }
+</style>
+{% endblock %}
+
+{% block content %}
+	<img class="fullwidth" src="https://placecats.com/900/300" alt="hero">
+	<section class="parent">
+		<article style="border:1px solid black;">Card Big</article>
+		<div>
+			<article>Card 1</article>
+			<article>Card 2</article>
+		</div>
+	</section>
+{% endblock %}
