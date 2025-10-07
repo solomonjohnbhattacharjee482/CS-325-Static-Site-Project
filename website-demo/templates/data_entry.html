@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+  :root{ --nav-grey:#a9a9a9; --nav-black:#222222; --accent:#0b5fff; }
+  nav.top-nav{ background-color:var(--nav-black); display:flex; align-items:center; justify-content:space-between; padding-top:15px; padding-bottom:10px; }
+  .content-layout{ display:grid; grid-template-columns:180px 1fr; gap:16px; }
+  .sidebar{ width:180px; background:var(--nav-black); color:#fff; padding:10px; border-right:3px solid rgba(11,95,255,0.12); }
+  main.container{ font-family:'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content-layout">
+  <aside class="sidebar">
+    <nav>
+      <ul style="list-style:none; margin:0; padding:0;">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="main-content">
+    <main class="container" style="margin-top:20px;">
+      <form>
+        <fieldset>
+          <legend>Profile Entry</legend>
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Enter your name" required>
+          <label for="about">About Me</label>
+          <textarea id="about" name="about" rows="4"></textarea>
+          <label for="hobbies">Hobbies</label>
+          <textarea id="hobbies" name="hobbies" rows="4"></textarea>
+          <label for="education">Education</label>
+          <textarea id="education" name="education" rows="4"></textarea>
+          <input type="submit" value="Save Profile">
+        </fieldset>
+      </form>
+    </main>
+  </div>
+</div>
+{% endblock %}
