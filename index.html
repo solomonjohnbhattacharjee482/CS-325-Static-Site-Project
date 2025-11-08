@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login - Progress Tracker</title>
+    <style>
+      :root{--bg:#1a1f2e;--card:#0f131a;--muted:#9aa0ab;--accent:#ff6b4a}
+      html,body{height:100%;margin:0}
+      body{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:linear-gradient(180deg,#141621 0%, #1f2736 100%);
+        font-family:Inter,system-ui,Arial,Helvetica,sans-serif;
+        color:#fff;
+      }
+      .card{
+        width:100%;
+        max-width:420px;
+        background:var(--card);
+        border-radius:12px;
+        padding:36px 30px;
+        box-shadow:0 10px 30px rgba(2,6,23,0.6);
+        box-sizing:border-box;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+      }
+      .logo{
+        font-weight:800;
+        color:var(--accent);
+        font-size:34px;
+        letter-spacing:2px;
+        margin-bottom:12px;
+      }
+      .title{font-size:16px;margin-bottom:20px;color:#e6e9ee}
+      .field{width:100%;margin-bottom:12px}
+      .field input{
+        width:100%;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:#0b0f14;color:#fff;box-sizing:border-box;font-size:14px
+      }
+      .row{width:100%;display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+      .remember{display:flex;align-items:center;color:var(--muted);font-size:13px}
+      .btn{
+        background:var(--accent);color:#081018;padding:10px 20px;border-radius:8px;border:0;cursor:pointer;font-weight:700;font-size:14px
+      }
+      .footer{margin-top:20px;color:var(--muted);font-size:12px;text-align:center}
+      @media(max-width:480px){.card{padding:20px}}
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <div class="logo">PT</div>
+      <div class="title">Sign in to Progress Tracker</div>
+
+      <div class="field">
+        <input type="text" placeholder="Username" aria-label="Username">
+      </div>
+
+      <div class="field">
+        <input type="password" placeholder="Password" aria-label="Password">
+      </div>
+
+      <div class="row">
+        <label class="remember"><input type="checkbox" style="margin-right:8px">Remember me</label>
+        <button class="btn">Log in</button>
+      </div>
+
+      <div class="footer">© 2025 Progress Tracker</div>
+    </main>
+  </body>
+</html>

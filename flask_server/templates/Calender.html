@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calendar</title>
+  <style>
+    html,body{height:100%;margin:0;font-family:Arial,Helvetica,sans-serif}
+    .topnav{ background:#007acc; color:white; padding:10px 16px; display:flex; justify-content:space-between; align-items:center; }
+    .calendar{display:flex;flex-direction:column;height:calc(100% - 52px)}
+    .month{display:flex;justify-content:space-between;padding:12px}
+    .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;flex:1;padding:10px}
+    .cell{border:1px solid #ddd;padding:8px;min-height:80px;background:white}
+    .cell .date{font-weight:700}
+  </style>
+</head>
+<body>
+  <div class="topnav">
+    <div>Welcome, Student</div>
+    <div><a href="/dashboard" style="color:white; text-decoration:none; margin-right:10px;">Dashboard</a><a href="/" style="color:white; text-decoration:none;">Log Out</a></div>
+  </div>
+  <div class="calendar">
+    <div class="month">
+      <button id="prev">Prev</button>
+      <div id="monthLabel">Month Year</div>
+      <button id="next">Next</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <script>
+    const grid = document.getElementById('grid')
+    let cur = new Date()
+    let eventsMap = {} // { 'YYYY-MM-DD': ['event1','event2'] }
+
+    function yyyy(mm) {
+      return mm < 10 ? '0'+mm : ''+mm
+    }
+
+    function render(){
+      grid.innerHTML=''
+      const y = cur.getFullYear(), m = cur.getMonth()
+      document.getElementById('monthLabel').textContent = cur.toLocaleString('default',{month:'long'}) + ' ' + y
+      const first = new Date(y,m,1)
+      const start = first.getDay()
+      const days = new Date(y,m+1,0).getDate()
+      for(let i=0;i<start;i++){ grid.appendChild(blankCell()) }
+      for(let d=1;d<=days;d++){
+        const cell = document.createElement('div'); cell.className='cell'
+        const iso = y + '-' + yyyy(m+1) + '-' + yyyy(d)
+        cell.dataset.date = iso
+        const dateSpan = document.createElement('div'); dateSpan.className='date'; dateSpan.textContent=d
+        cell.appendChild(dateSpan)
+        const list = document.createElement('ul'); list.className='events'
+        cell.appendChild(list)
+        cell.addEventListener('dblclick', onCellAdd)
+        grid.appendChild(cell)
+      }
+      populateEvents()
+    }
+
+    function blankCell(){ const c=document.createElement('div'); c.className='cell'; c.style.background='#f9f9f9'; return c }
+
+    function populateEvents(){
+      const cells = grid.querySelectorAll('.cell')
+      cells.forEach(c => {
+        const date = c.dataset.date
+        const list = c.querySelector('.events')
+        list.innerHTML = ''
+        if(date && eventsMap[date]){
+          eventsMap[date].forEach(ev => {
+            const li = document.createElement('li')
+            li.textContent = ev
+            li.style.cursor = 'pointer'
+            li.title = 'Double-click to remove'
+            li.addEventListener('dblclick', () => removeEvent(date, ev, li))
+            list.appendChild(li)
+          })
+        }
+      })
+    }
+
+    async function loadEvents(){
+      try{
+        const res = await fetch('/api/events')
+        if(res.ok){
+          eventsMap = await res.json()
+        } else {
+          console.warn('Failed to load events', res.status)
+        }
+      }catch(e){ console.warn('Fetch error', e) }
+      render()
+    }
+
+    async function onCellAdd(e){
+      const cell = e.currentTarget
+      const date = cell.dataset.date
+      const text = prompt('Add event for ' + date + '\n(press Cancel to abort)')
+      if(!text) return
+      try{
+        const res = await fetch('/api/events', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ date, item: text })
+        })
+        if(res.ok){
+          eventsMap[date] = eventsMap[date] || []
+          eventsMap[date].push(text)
+          populateEvents()
+        } else {
+          alert('Failed to save event')
+        }
+      }catch(err){ alert('Error saving: '+err)
+      }
+    }
+
+    async function removeEvent(date, item, liEl){
+      // simple client-side remove: ask the server to add logic if you want
+      if(!confirm('Remove event "'+item+'" on '+date+'?')) return
+      // For now we manipulate local in-memory map and re-render; server doesn't have delete endpoint yet
+      const arr = eventsMap[date] || []
+      const idx = arr.indexOf(item)
+      if(idx !== -1){ arr.splice(idx,1); eventsMap[date] = arr; populateEvents() }
+    }
+
+    document.getElementById('prev').onclick = ()=>{ cur.setMonth(cur.getMonth()-1); render() }
+    document.getElementById('next').onclick = ()=>{ cur.setMonth(cur.getMonth()+1); render() }
+
+    // initial load will fetch events from server and render
+    loadEvents()
+  </script>
+</body>
+</html>
