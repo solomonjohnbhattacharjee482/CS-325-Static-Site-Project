@@ -35,6 +35,15 @@
         margin-bottom:12px;
       }
       .title{font-size:16px;margin-bottom:20px;color:#e6e9ee}
+      
+      /* MODIFIED: Wrapped form fields in a form tag */
+      form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
       .field{width:100%;margin-bottom:12px}
       .field input{
         width:100%;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:#0b0f14;color:#fff;box-sizing:border-box;font-size:14px
@@ -53,19 +62,20 @@
       <div class="logo">PT</div>
       <div class="title">Sign in to Progress Tracker</div>
 
-      <div class="field">
-        <input type="text" placeholder="Username" aria-label="Username">
-      </div>
+      <form method="POST" action="{{ url_for('login') }}">
+          <div class="field">
+            <input type="text" placeholder="Username" aria-label="Username" name="username">
+          </div>
 
-      <div class="field">
-        <input type="password" placeholder="Password" aria-label="Password">
-      </div>
+          <div class="field">
+            <input type="password" placeholder="Password" aria-label="Password" name="password">
+          </div>
 
-      <div class="row">
-        <label class="remember"><input type="checkbox" style="margin-right:8px">Remember me</label>
-        <button class="btn">Log in</button>
-      </div>
-
+          <div class="row">
+            <label class="remember"><input type="checkbox" style="margin-right:8px">Remember me</label>
+            <button class="btn" type="submit">Log in</button>
+          </div>
+      </form>
       <div class="footer">© 2025 Progress Tracker</div>
     </main>
   </body>

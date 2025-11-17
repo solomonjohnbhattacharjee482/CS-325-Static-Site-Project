@@ -1,205 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Full Screen Calendar</title>
-	<style>
-		:root {
-			--primary-color: #1a1d2f;
-			--secondary-color: #2c3e50;
-			--accent-color: #3498db;
-			--text-color: #ecf0f1;
-		}
-		body {
-			background-color: var(--primary-color);
-			color: var(--text-color);
-		}
-		nav {
-			background-color: var(--secondary-color);
-			padding: 1rem;
-		}
-		nav {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-		}
-		nav ul {
-			list-style: none;
-			margin: 0;
-			padding: 0;
-			display: flex;
-			gap: 2rem;
-		}
-		.nav-left {
-			display: flex;
-			align-items: center;
-		}
-		.nav-right {
-			margin-left: auto;
-		}
-		.logout-btn {
-			background: var(--accent-color);
-			color: var(--text-color);
-			border: none;
-			padding: 0.5rem 1rem;
-			border-radius: 4px;
-			font-weight: bold;
-			cursor: pointer;
-		}
-		.logout-btn:hover {
-			opacity: 0.9;
-		}
-		nav a {
-			color: var(--text-color);
-			text-decoration: none;
-			font-weight: bold;
-		}
-		nav a:hover {
-			color: var(--accent-color);
-		}
-		html, body {
-			height: 100%;
-			margin: 0;
-			padding: 0;
-			font-family: Arial, sans-serif;
-			background: #181a2a;
-			color: #f0f4fa;
-		}
-		body {
-			min-height: 100vh;
-			display: flex;
-			flex-direction: column;
-		}
-		.calendar-header {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			padding: 2rem 3vw 1rem 3vw;
-			background: #23263a;
-			font-size: 2rem;
-		}
-		.calendar-header button {
-			background: #3498db;
-			color: #fff;
-			border: none;
-			padding: 0.5rem 1rem;
-			border-radius: 4px;
-			font-size: 1rem;
-			cursor: pointer;
-		}
-		.calendar-header button:hover { opacity: 0.9; }
-		.calendar-grid {
-			flex: 1;
-			display: grid;
-			grid-template-columns: repeat(7, 1fr);
-			grid-auto-rows: minmax(120px, 1fr);
-			gap: 2px;
-			background: #23263a;
-		}
-		.calendar-day {
-			background: #23263a;
-			border: 1px solid #2c2f4a;
-			padding: 0.5rem;
-			position: relative;
-			cursor: pointer;
-			min-height: 120px;
-			transition: background 0.2s;
-		}
-		.calendar-day:hover {
-			background: #2d3252;
-		}
-		.calendar-day.today {
-			border: 2px solid #3498db;
-		}
-		.calendar-day .date {
-			font-weight: bold;
-			font-size: 1.2rem;
-			margin-bottom: 0.5rem;
-		}
-		.calendar-day .items {
-			font-size: 0.95rem;
-			margin-top: 0.3rem;
-		}
-		.calendar-weekdays {
-			display: grid;
-			grid-template-columns: repeat(7, 1fr);
-			background: #23263a;
-			font-weight: bold;
-			text-align: center;
-			padding: 0.5rem 0;
-			border-bottom: 2px solid #3498db;
-		}
-		.modal {
-			position: fixed;
-			top: 0; left: 0; right: 0; bottom: 0;
-			background: rgba(24,26,42,0.95);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			z-index: 1000;
-		}
-		.modal-content {
-			background: #23263a;
-			padding: 2rem;
-			border-radius: 8px;
-			min-width: 320px;
-			max-width: 90vw;
-		}
-		.modal-content h2 {
-			margin-top: 0;
-		}
-		.modal-content input, .modal-content button {
-			font-size: 1rem;
-			margin-top: 1rem;
-		}
-		.modal-content input {
-			width: 80%;
-			padding: 0.5rem;
-			border-radius: 4px;
-			border: 1px solid #3498db;
-			background: #181a2a;
-			color: #f0f4fa;
-		}
-		.modal-content button {
-			background: #3498db;
-			color: #fff;
-			border: none;
-			padding: 0.5rem 1rem;
-			border-radius: 4px;
-			cursor: pointer;
-		}
-		.modal-content button:hover { opacity: 0.9; }
-		.modal-content ul {
-			margin: 1rem 0 0 0;
-			padding: 0;
-			list-style: none;
-		}
-		.modal-content li {
-			margin-bottom: 0.5rem;
-		}
-	</style>
-</head>
-	<body>
-		<nav>
-			<div class="nav-left">
-				<ul>
-					<li><a href="#">Home</a></li>
-					<li><a href="#">Dashboard</a></li>
-					<li><a href="#">Calendar</a></li>
-				</ul>
-			</div>
-			<div class="nav-right">
-				<button class="logout-btn" onclick="logout()">Log Out</button>
-			</div>
-		</nav>
-		<script>
-		function logout() {
-			// Add your logout logic here
-			alert('Logged out!');
-		}
-		</script>
-	<div class="calendar-header">
+{% extends 'layout.html' %}
+
+{% block content %}
+	<div class="calendar-page-header">
 		<button id="prevMonth">&#8592; Prev</button>
 		<span id="monthYear"></span>
 		<button id="nextMonth">Next &#8594;</button>
@@ -207,7 +9,7 @@
 	<div class="calendar-weekdays">
 		<div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
 	</div>
-	<div class="calendar-grid" id="calendarGrid"></div>
+	<div class="calendar-page-grid" id="calendarGrid"></div>
 
 	<div class="modal" id="modal" style="display:none;">
 		<div class="modal-content">
@@ -219,7 +21,7 @@
 		</div>
 	</div>
 
-	<script>
+    <script>
 		// Calendar state
 		let currentDate = new Date();
 		let currentMonth = currentDate.getMonth();
@@ -248,13 +50,13 @@
 			// Fill empty cells before first day
 			for (let i = 0; i < firstDay.getDay(); i++) {
 				const emptyCell = document.createElement('div');
-				emptyCell.className = 'calendar-day';
+				emptyCell.className = 'calendar-page-day';
 				grid.appendChild(emptyCell);
 			}
 			// Fill days
 			for (let day = 1; day <= lastDay.getDate(); day++) {
 				const cell = document.createElement('div');
-				cell.className = 'calendar-day';
+				cell.className = 'calendar-page-day';
 				if (
 					day === today.getDate() &&
 					currentMonth === today.getMonth() &&
@@ -358,5 +160,4 @@
 		// Initial render
 		renderCalendar();
 	</script>
-</body>
-</html>
+{% endblock %}

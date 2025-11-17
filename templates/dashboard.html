@@ -1,0 +1,129 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="greeting" id="greeting">Good morning!</div>
+        
+        <div class="dashboard">
+            <div class="holiday-table">
+                <h2>Upcoming Holidays</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Holiday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Nov 23, 2025</td>
+                            <td>Thanksgiving Day</td>
+                        </tr>
+                        <tr>
+                            <td>Dec 25, 2025</td>
+                            <td>Christmas Day</td>
+                        </tr>
+                        <tr>
+                            <td>Jan 1, 2026</td>
+                            <td>New Year's Day</td>
+                        </tr>
+                        <tr>
+                            <td>Jan 20, 2026</td>
+                            <td>Martin Luther King Jr. Day</td>
+                        </tr>
+                        <tr>
+                            <td>Feb 17, 2026</td>
+                            <td>Presidents Day</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tasks">
+                <h2>Tasks</h2>
+                
+                {% for task in tasks %}
+                    <div class="task-item">
+                        <input type="checkbox" id="{{ task.id }}" {% if task.done %}checked{% endif %}>
+                        <label for="{{ task.id }}">{{ task.text }}</label>
+                    </div>
+                {% endfor %}
+                </div>
+
+            <div class="calendar">
+                <div class="calendar-header">
+                    <h2>Calendar</h2>
+                    <div>November 2025</div>
+                </div>
+                <div class="calendar-grid">
+                    <div class="calendar-day">Sun</div>
+                    <div class="calendar-day">Mon</div>
+                    <div class="calendar-day">Tue</div>
+                    <div class="calendar-day">Wed</div>
+                    <div class="calendar-day">Thu</div>
+                    <div class="calendar-day">Fri</div>
+                    <div class="calendar-day">Sat</div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update greeting based on time of day
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            const greeting = document.getElementById('greeting');
+            
+            if (hour < 12) {
+                greeting.textContent = 'Good morning!';
+            } else if (hour < 18) {
+                greeting.textContent = 'Good afternoon!';
+            } else {
+                greeting.textContent = 'Good evening!';
+            }
+        }
+
+        // Generate calendar days
+        function generateCalendar() {
+            const calendar = document.querySelector('.calendar-grid');
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                calendar.appendChild(emptyDay);
+            }
+            
+            // Add days of the month
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                calendar.appendChild(dayElement);
+            }
+        }
+
+        // Initialize the page
+        updateGreeting();
+        generateCalendar();
+        
+        // Save task states
+        document.querySelectorAll('.task-item input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                localStorage.setItem(this.id, this.checked);
+            });
+            
+            // Load saved state
+            const saved = localStorage.getItem(checkbox.id);
+            if (saved === 'true') {
+                checkbox.checked = true;
+            }
+        });
+    </script>
+{% endblock %}

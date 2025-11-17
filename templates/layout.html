@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ pageTitle }} - Progress Tracker</title>
+    <style>
+        :root {
+            --primary-color: #1a1d2f;
+            --secondary-color: #2c3e50;
+            --accent-color: #3498db;
+            --text-color: #ecf0f1;
+            --task-bg: #34495e;
+            --table-header-bg: #2c3e50;
+            --table-row-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+        }
+
+        nav {
+            background-color: var(--secondary-color);
+            padding: 1rem;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+        .nav-right {
+            margin-left: auto;
+        }
+        .logout-btn {
+            background: var(--accent-color);
+            color: var(--text-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            opacity: 0.9;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .greeting {
+            text-align: left;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .holiday-table {
+            background-color: var(--task-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .holiday-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .holiday-table th {
+            background-color: var(--table-header-bg);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .holiday-table td {
+            padding: 0.75rem;
+            background-color: var(--table-row-bg);
+        }
+
+        .tasks {
+            background-color: var(--task-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .task-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        .calendar {
+            background-color: var(--task-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        /* Styles from Calendar.html for full-screen calendar page */
+		html, body {
+			height: 100%;
+			font-family: Arial, sans-serif;
+		}
+		body {
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+		}
+		.calendar-page-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 2rem 3vw 1rem 3vw;
+			font-size: 2rem;
+		}
+		.calendar-page-header button {
+			background: #3498db;
+			color: #fff;
+			border: none;
+			padding: 0.5rem 1rem;
+			border-radius: 4px;
+			font-size: 1rem;
+			cursor: pointer;
+		}
+		.calendar-page-header button:hover { opacity: 0.9; }
+		.calendar-page-grid {
+			flex: 1;
+			display: grid;
+			grid-template-columns: repeat(7, 1fr);
+			grid-auto-rows: minmax(120px, 1fr);
+			gap: 2px;
+		}
+		.calendar-page-day {
+			background: #23263a;
+			border: 1px solid #2c2f4a;
+			padding: 0.5rem;
+			position: relative;
+			cursor: pointer;
+			min-height: 120px;
+			transition: background 0.2s;
+		}
+		.calendar-page-day:hover {
+			background: #2d3252;
+		}
+		.calendar-page-day.today {
+			border: 2px solid #3498db;
+		}
+		.calendar-page-day .date {
+			font-weight: bold;
+			font-size: 1.2rem;
+			margin-bottom: 0.5rem;
+		}
+		.calendar-page-day .items {
+			font-size: 0.95rem;
+			margin-top: 0.3rem;
+		}
+		.calendar-weekdays {
+			display: grid;
+			grid-template-columns: repeat(7, 1fr);
+			font-weight: bold;
+			text-align: center;
+			padding: 0.5rem 0;
+			border-bottom: 2px solid #3498db;
+		}
+		.modal {
+			position: fixed;
+			top: 0; left: 0; right: 0; bottom: 0;
+			background: rgba(24,26,42,0.95);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			z-index: 1000;
+		}
+		.modal-content {
+			background: #23263a;
+			padding: 2rem;
+			border-radius: 8px;
+			min-width: 320px;
+			max-width: 90vw;
+		}
+		.modal-content h2 {
+			margin-top: 0;
+		}
+		.modal-content input, .modal-content button {
+			font-size: 1rem;
+			margin-top: 1rem;
+		}
+		.modal-content input {
+			width: 80%;
+			padding: 0.5rem;
+			border-radius: 4px;
+			border: 1px solid #3498db;
+			background: #181a2a;
+			color: #f0f4fa;
+		}
+		.modal-content button {
+			background: #3498db;
+			color: #fff;
+			border: none;
+			padding: 0.5rem 1rem;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+		.modal-content button:hover { opacity: 0.9; }
+		.modal-content ul {
+			margin: 1rem 0 0 0;
+			padding: 0;
+			list-style: none;
+		}
+		.modal-content li {
+			margin-bottom: 0.5rem;
+		}
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('calendar') }}">Calendar</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <form action="{{ url_for('login') }}" method="GET">
+                <button class="logout-btn" type="submit">Log Out</button>
+            </form>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+    </body>
+</html>
