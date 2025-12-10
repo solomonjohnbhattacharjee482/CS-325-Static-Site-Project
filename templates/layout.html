@@ -15,280 +15,187 @@
             --table-row-bg: rgba(255, 255, 255, 0.1);
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: var(--primary-color);
-            color: var(--text-color);
+        /* GLOBAL RESET */
+        * { box-sizing: border-box; }
+
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--primary-color); color: var(--text-color); }
+        
+        /* NAVBAR */
+        nav { background-color: var(--secondary-color); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 2rem; }
+        .nav-left { display: flex; align-items: center; }
+        .nav-right { margin-left: auto; }
+        .logout-btn { background: var(--accent-color); color: var(--text-color); border: none; padding: 0.8rem 1.5rem; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: background 0.2s;}
+        .logout-btn:hover { background: #2980b9; }
+        nav a { color: var(--text-color); text-decoration: none; font-weight: bold; font-size: 1.1rem; padding-bottom: 5px;}
+        nav a:hover { color: var(--accent-color); }
+        nav a.active { color: var(--accent-color); border-bottom: 3px solid var(--accent-color); }
+
+        /* MAIN CONTAINER */
+        .container { 
+            max-width: 1400px; 
+            width: 95%;        
+            margin: 0 auto;    
+            padding: 2rem; 
         }
 
-        nav {
-            background-color: var(--secondary-color);
-            padding: 1rem;
+        .greeting { text-align: left; font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem; margin-left: 0.5rem;}
+
+        /* DASHBOARD GRID */
+        .dashboard { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); /* 3 Equal columns */
+            gap: 2rem; 
+            align-items: stretch; /* Keep symmetry */
         }
 
-        nav {
+        /* CARDS */
+        .holiday-table, .tasks, .calendar { 
+            background-color: var(--task-bg); 
+            padding: 1.5rem; 
+            border-radius: 12px; 
+            /* FIXED HEIGHT SETTINGS */
+            min-height: 400px;   /* Smaller height */
+            height: 100%;        
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            gap: 2rem;
-        }
-        .nav-left {
-            display: flex;
-            align-items: center;
-        }
-        .nav-right {
-            margin-left: auto;
-        }
-        .logout-btn {
-            background: var(--accent-color);
-            color: var(--text-color);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .logout-btn:hover {
-            opacity: 0.9;
+            flex-direction: column;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            /* Ensure contents stack at the start */
+            justify-content: flex-start !important; 
         }
 
-        nav a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: bold;
+        /* HEADINGS */
+        .holiday-table h2, .tasks h2, .calendar h2 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
         }
 
-        nav a:hover {
-            color: var(--accent-color);
+        /* TABLE STYLES */
+        .holiday-table table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+        .holiday-table th { background-color: var(--table-header-bg); padding: 0.8rem; text-align: left; border-radius: 6px 6px 0 0;}
+        .holiday-table td { padding: 0.8rem; background-color: var(--table-row-bg); border-bottom: 1px solid rgba(0,0,0,0.1); }
+        
+        /* TASK ITEMS */
+        .task-item { 
+            display: flex; align-items: center; gap: 1rem; margin-bottom: 0.8rem; padding: 0.8rem; 
+            background: rgba(255, 255, 255, 0.05); border-radius: 6px; font-size: 1rem;
+            transition: background 0.2s;
+        }
+        .task-item:hover { background: rgba(255, 255, 255, 0.1); }
+        .task-item input[type="checkbox"] { transform: scale(1.2); } 
+
+        /* CALENDAR WIDGET STYLES */
+        /* CALENDAR WIDGET STYLES */
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 1.1rem; font-weight: bold;}
+        
+        .calendar-grid { 
+            display: grid; 
+            grid-template-columns: repeat(7, 1fr); 
+            gap: 0.5rem; /* Increased gap slightly */
+            align-content: start !important; 
+            flex-grow: 0 !important;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .greeting {
-            text-align: left;
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-        }
-
-        .dashboard {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 2rem;
-        }
-
-        .holiday-table {
-            background-color: var(--task-bg);
-            padding: 1.5rem;
-            border-radius: 8px;
-        }
-
-        .holiday-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .holiday-table th {
-            background-color: var(--table-header-bg);
-            padding: 0.75rem;
-            text-align: left;
-        }
-
-        .holiday-table td {
-            padding: 0.75rem;
-            background-color: var(--table-row-bg);
-        }
-
-        .tasks {
-            background-color: var(--task-bg);
-            padding: 1.5rem;
-            border-radius: 8px;
-        }
-
-        .task-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-        }
-
-        .task-item input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-        }
-
-        .calendar {
-            background-color: var(--task-bg);
-            padding: 1.5rem;
-            border-radius: 8px;
-        }
-
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.5rem;
-        }
-
-        .calendar-day {
+        /* NEW: Style for the S M T W T F S headers */
+        .calendar-day-header {
             text-align: center;
-            padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
+            font-weight: 800;
+            color: var(--accent-color);
+            padding-bottom: 5px;
+            font-size: 0.9rem;
         }
 
-        /* Styles from Calendar.html for full-screen calendar page */
-		html, body {
-			height: 100%;
-			font-family: Arial, sans-serif;
-		}
-		body {
-			min-height: 100vh;
-			display: flex;
-			flex-direction: column;
-		}
-		.calendar-page-header {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			padding: 2rem 3vw 1rem 3vw;
-			font-size: 2rem;
-		}
-		.calendar-page-header button {
-			background: #3498db;
-			color: #fff;
-			border: none;
-			padding: 0.5rem 1rem;
-			border-radius: 4px;
-			font-size: 1rem;
-			cursor: pointer;
-		}
-		.calendar-page-header button:hover { opacity: 0.9; }
-		.calendar-page-grid {
-			flex: 1;
-			display: grid;
-			grid-template-columns: repeat(7, 1fr);
-			grid-auto-rows: minmax(120px, 1fr);
-			gap: 2px;
-		}
-		.calendar-page-day {
-			background: #23263a;
-			border: 1px solid #2c2f4a;
-			padding: 0.5rem;
-			position: relative;
-			cursor: pointer;
-			min-height: 120px;
-			transition: background 0.2s;
-		}
-		.calendar-page-day:hover {
-			background: #2d3252;
-		}
-		.calendar-page-day.today {
-			border: 2px solid #3498db;
-		}
-		.calendar-page-day .date {
-			font-weight: bold;
-			font-size: 1.2rem;
-			margin-bottom: 0.5rem;
-		}
-		.calendar-page-day .items {
-			font-size: 0.95rem;
-			margin-top: 0.3rem;
-		}
-		.calendar-weekdays {
-			display: grid;
-			grid-template-columns: repeat(7, 1fr);
-			font-weight: bold;
-			text-align: center;
-			padding: 0.5rem 0;
-			border-bottom: 2px solid #3498db;
-		}
-		.modal {
-			position: fixed;
-			top: 0; left: 0; right: 0; bottom: 0;
-			background: rgba(24,26,42,0.95);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			z-index: 1000;
-		}
-		.modal-content {
-			background: #23263a;
-			padding: 2rem;
-			border-radius: 8px;
-			min-width: 320px;
-			max-width: 90vw;
-		}
-		.modal-content h2 {
-			margin-top: 0;
-		}
-		.modal-content input, .modal-content button {
-			font-size: 1rem;
-			margin-top: 1rem;
-		}
-		.modal-content input {
-			width: 80%;
-			padding: 0.5rem;
-			border-radius: 4px;
-			border: 1px solid #3498db;
-			background: #181a2a;
-			color: #f0f4fa;
-		}
-		.modal-content button {
-			background: #3498db;
-			color: #fff;
-			border: none;
-			padding: 0.5rem 1rem;
-			border-radius: 4px;
-			cursor: pointer;
-		}
-		.modal-content button:hover { opacity: 0.9; }
-		.modal-content ul {
-			margin: 1rem 0 0 0;
-			padding: 0;
-			list-style: none;
-		}
-		.modal-content li {
-			margin-bottom: 0.5rem;
-		}
+        /* MODIFIED: Made cells taller */
+        .calendar-day { 
+            text-align: center; 
+            padding: 0;           /* Remove padding, we use flex to center */
+            background: rgba(255, 255, 255, 0.05); 
+            border-radius: 6px; 
+            font-weight: bold; 
+            font-size: 1rem;
+            
+            /* Center the number perfectly */
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            
+            /* HEIGHT CONTROL: Makes them taller/longer */
+            height: 50px; /* Forces every day to be 50px tall */
+        }
+        
+        /* Transparent background for empty days */
+        .calendar-day.empty {
+            background: transparent;
+        }
+
+        /* ACTIVE DAY HIGHLIGHT */
+        .calendar-day.today {
+            background-color: var(--accent-color) !important;
+            color: #fff;
+            font-weight: 800;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+        }
+
+        .calendar-day { 
+            text-align: center; padding: 0.6rem; 
+            background: rgba(255, 255, 255, 0.05); 
+            border-radius: 6px; font-weight: bold; font-size: 0.9rem;
+            display: flex; align-items: center; justify-content: center;
+            aspect-ratio: 1 / 1;
+        }
+
+        /* ACTIVE DAY HIGHLIGHT */
+        .calendar-day.today {
+            background-color: var(--accent-color) !important;
+            color: #fff;
+            font-weight: 800;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+        }
+        
+        /* FULL PAGE CALENDAR STYLES (Keep these for the other page) */
+		html, body { height: 100%; }
+		body { min-height: 100vh; display: flex; flex-direction: column; }
+		.calendar-page-header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 3vw 1rem 3vw; font-size: 2rem; }
+		.calendar-page-header button { background: #3498db; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 1rem; cursor: pointer; }
+		.calendar-page-grid { flex: 1; display: grid; grid-template-columns: repeat(7, 1fr); grid-auto-rows: minmax(120px, 1fr); gap: 2px; }
+		.calendar-page-day { background: #23263a; border: 1px solid #2c2f4a; padding: 0.5rem; position: relative; cursor: pointer; min-height: 120px; transition: background 0.2s; }
+		.calendar-page-day:hover { background: #2d3252; }
+		.calendar-page-day.today { border: 2px solid #3498db; }
+		.calendar-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); font-weight: bold; text-align: center; padding: 0.5rem 0; border-bottom: 2px solid #3498db; }
+		.modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(24,26,42,0.95); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+		.modal-content { background: #23263a; padding: 2rem; border-radius: 8px; min-width: 320px; max-width: 90vw; }
+		.modal-content input { width: 80%; padding: 0.5rem; border-radius: 4px; border: 1px solid #3498db; background: #181a2a; color: #f0f4fa; font-size: 1rem; margin-top: 1rem;}
+		.modal-content button { background: #3498db; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 1rem; margin-top: 1rem;}
     </style>
 </head>
 <body>
     <nav>
         <div class="nav-left">
             <ul>
-                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ url_for('calendar') }}">Calendar</a></li>
+                <li>
+                    <a href="{{ url_for('dashboard') }}" class="{{ 'active' if request.endpoint == 'dashboard' else '' }}">
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('calendar') }}" class="{{ 'active' if request.endpoint == 'calendar' else '' }}">
+                        Calendar
+                    </a>
+                </li>
             </ul>
         </div>
         <div class="nav-right">
-            <form action="{{ url_for('login') }}" method="GET">
-                <button class="logout-btn" type="submit">Log Out</button>
-            </form>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('logout') }}">
+                    <button class="logout-btn">Log Out</button>
+                </a>
+            {% endif %}
         </div>
     </nav>
 
     {% block content %}{% endblock %}
-    </body>
+</body>
 </html>
